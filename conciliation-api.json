@@ -1,0 +1,592 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Conciliacao API",
+    "description" : "API description",
+    "termsOfService" : "urn:tos",
+    "contact" : {
+      "name" : "Fiserv",
+      "url" : "https://merchants.fiserv.com/pt-br/"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version" : "1",
+    "x-header-api-key" : "X0GW3QGOYFn4r7DHcVC8KuatUnNs6MGB",
+    "x-config" : {
+      "tryItOut" : true
+    },
+    "x-header-api-secret" : "N93nmFmoY0NzSMC5",
+    "x-production-url" : "https://prod.api.firstdata.com/bwa/conciliacao-api"
+  },
+  "servers" : [ {
+    "url" : "https://cat.api.firstdata.com/bwa/conciliacao-api"
+  } ],
+  "security" : [ {
+    "JWT" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Summarized payments",
+    "description" : "The purpose of this API is to allow the user to obtain summarized or detailed information about the payment of documents over a period"
+  } ],
+  "paths" : {
+    "/v1/summarized/payments" : {
+      "get" : {
+        "tags" : [ "Summarized payments" ],
+        "description" : "Get typed summary payments",
+        "operationId" : "getSummaryOfReceivables",
+        "parameters" : [ {
+          "name" : "document",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "startDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "endDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "institution",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "serviceContract",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Error in the fields sent",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedPaymentResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedPaymentResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedPaymentResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Document not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedPaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/summarized/payments/details" : {
+      "get" : {
+        "tags" : [ "Summarized payments" ],
+        "description" : "Get payment details information",
+        "operationId" : "getPaymentsDetailsPaged",
+        "parameters" : [ {
+          "name" : "document",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "SALES", "ENUMBRANCES", "ANTICIPATIONS", "ADJUSTMENTS", "DISCOUNT_FEES", "ANTICIPATION_FEES", "ASSIGNMENTS" ]
+          }
+        }, {
+          "name" : "operation",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "CREDIT", "DEBIT" ]
+          }
+        }, {
+          "name" : "startDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "endDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "institution",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "serviceContract",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Error in the fields sent",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DPagePaymentDetails"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DPagePaymentDetails"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DPagePaymentDetails"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Document not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DPagePaymentDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/summarized/bank-domiciles" : {
+      "get" : {
+        "tags" : [ "Summarized payments" ],
+        "description" : "Get specific payments sorted bank domiciles",
+        "operationId" : "getSummaryOfBankDomiciles",
+        "parameters" : [ {
+          "name" : "document",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "startDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "endDate",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "institution",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "serviceContract",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedBankDomicileResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Error in the fields sent",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedBankDomicileResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedBankDomicileResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DResponseListSummarizedBankDomicileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/isAlive" : {
+      "get" : {
+        "tags" : [ "is-alive-controller" ],
+        "description" : "Get API operation status",
+        "operationId" : "isAlive",
+        "responses" : {
+          "200" : {
+            "description" : "Successfully Done",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "DResponseListSummarizedPaymentResponse" : {
+        "type" : "object",
+        "properties" : {
+          "codigoRetorno" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "mensagem" : {
+            "type" : "string"
+          },
+          "conteudo" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SummarizedPaymentResponse"
+            }
+          }
+        }
+      },
+      "SummarizedPaymentDetail" : {
+        "type" : "object",
+        "properties" : {
+          "displayValue" : {
+            "type" : "string",
+            "description" : "Formatted value for presentation",
+            "example" : "R$ 1000,00"
+          },
+          "value" : {
+            "type" : "number",
+            "description" : "Payment value",
+            "example" : 1000.0
+          },
+          "operationType" : {
+            "type" : "string",
+            "description" : "Peyment operation type",
+            "example" : "C",
+            "enum" : [ "CREDIT", "DEBIT", "C", "D" ]
+          }
+        },
+        "description" : "List of the amounts received by the customer"
+      },
+      "SummarizedPaymentResponse" : {
+        "type" : "object",
+        "properties" : {
+          "paymentType" : {
+            "type" : "string",
+            "description" : "Type of payment",
+            "enum" : [ "SALES", "ENUMBRANCES", "ANTICIPATIONS", "ADJUSTMENTS", "DISCOUNT_FEES", "ANTICIPATION_FEES", "ASSIGNMENTS" ]
+          },
+          "summarizedPaymentsDetails" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SummarizedPaymentDetail"
+            }
+          }
+        }
+      },
+      "DPagePaymentDetails" : {
+        "type" : "object",
+        "properties" : {
+          "codigoRetorno" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "mensagem" : {
+            "type" : "string"
+          },
+          "conteudo" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentDetails"
+            }
+          },
+          "lastPage" : {
+            "type" : "boolean"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "currentPage" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalCurrentItems" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PaymentDetails" : {
+        "type" : "object",
+        "properties" : {
+          "settlementDate" : {
+            "type" : "string",
+            "description" : "Settlement Date",
+            "example" : "20210909"
+          },
+          "saleDate" : {
+            "type" : "string",
+            "description" : "Sale Date",
+            "example" : "20210909"
+          },
+          "paymentStatus" : {
+            "type" : "string",
+            "description" : "Status",
+            "example" : "PAYMENT_MADE",
+            "enum" : [ "PAYMENT_MADE", "PAYMENT_NOT_MADE" ]
+          },
+          "productType" : {
+            "type" : "string",
+            "description" : "Product type",
+            "example" : "DEBIT",
+            "enum" : [ "DEBIT", "CASH_CREDIT", "INSTALLMENT_CREDIT" ]
+          },
+          "flagDescription" : {
+            "type" : "string",
+            "description" : "Flag description",
+            "example" : "Visa/Mastercard/Hipercard ..."
+          },
+          "grossValue" : {
+            "type" : "number",
+            "description" : "Gross value",
+            "example" : 1000.0
+          },
+          "discount" : {
+            "type" : "number",
+            "description" : "Applied discount",
+            "example" : 100.0
+          },
+          "netValue" : {
+            "type" : "number",
+            "description" : "Net value",
+            "example" : 900.0
+          },
+          "feeMode" : {
+            "type" : "number",
+            "description" : "Fee value",
+            "example" : 1.0
+          },
+          "netSalesFee" : {
+            "type" : "number",
+            "description" : "Net sales fee",
+            "example" : 900.0
+          },
+          "parcelNumber" : {
+            "type" : "integer",
+            "description" : "Number of parcel",
+            "format" : "int32",
+            "example" : 1
+          },
+          "totalParcel" : {
+            "type" : "integer",
+            "description" : "Total of parcel",
+            "format" : "int32",
+            "example" : 1
+          },
+          "dsTransactionType" : {
+            "type" : "string",
+            "description" : "Type of transaction",
+            "example" : "Aluguel Move 5000"
+          }
+        }
+      },
+      "DResponseListSummarizedBankDomicileResponse" : {
+        "type" : "object",
+        "properties" : {
+          "codigoRetorno" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "mensagem" : {
+            "type" : "string"
+          },
+          "conteudo" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SummarizedBankDomicileResponse"
+            }
+          }
+        }
+      },
+      "SummarizedBankDomicileResponse" : {
+        "type" : "object",
+        "properties" : {
+          "paymentVal" : {
+            "type" : "string",
+            "description" : "Payments made at the customer's bank domicile",
+            "example" : "100.0"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "description" : "SummarizedPaymentRTDesk date",
+            "example" : "20210909"
+          },
+          "paymentStatus" : {
+            "type" : "string",
+            "description" : "SummarizedPaymentRTDesk status",
+            "example" : "PAYMENT_MADE",
+            "enum" : [ "PAYMENT_MADE", "PAYMENT_NOT_MADE" ]
+          },
+          "flagDescription" : {
+            "type" : "string",
+            "description" : "Flag description",
+            "example" : "Visa/Mastercard/Hipercard ..."
+          },
+          "bankNumber" : {
+            "type" : "string",
+            "description" : "Bank number",
+            "example" : "123"
+          },
+          "branchNumber" : {
+            "type" : "string",
+            "description" : "Branch Number",
+            "example" : "12345"
+          },
+          "currentAccountNumber" : {
+            "type" : "string",
+            "description" : "Account Number",
+            "example" : "123456"
+          },
+          "typeBankAddress" : {
+            "type" : "string",
+            "description" : "Type of customer's bank address",
+            "example" : "CLIENT_BANK",
+            "enum" : [ "CLIENT_BANK", "OTHER_BANK" ]
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "JWT" : {
+        "type" : "apiKey",
+        "name" : "Authorization",
+        "in" : "header"
+      }
+    }
+  }
+}

@@ -1,0 +1,237 @@
+GET
+/v1/summarized/payments/details
+
+Entradas
+	document*
+	type*
+		SALES, ENUMBRANCES, ANTICIPATIONS, ADJUSTMENTS, DISCOUNT_FEES, ANTICIPATION_FEES, ASSIGNMENTS
+	operation
+		CREDIT,DEBIT
+	startDate
+	endDate
+		ultimosSeteDias
+		ontem
+		personalizado
+	page
+		0(default)
+	size
+		10 (default)
+	institution
+		7, 4
+	serviceContract
+		125BIN, 149CAIXA, 110SICREDI
+		
+Saidas
+{
+  "codigoRetorno": 0,
+  "mensagem": "string",
+  "conteudo": [
+    {
+      "settlementDate": "20210909",
+      "saleDate": "20210909",
+      "paymentStatus": "PAYMENT_MADE",
+      "productType": "DEBIT",
+      "flagDescription": "Visa/Mastercard/Hipercard ...",
+      "grossValue": 1000,
+      "discount": 100,
+      "netValue": 900,
+      "feeMode": 1,
+      "netSalesFee": 900,
+      "parcelNumber": 1,
+      "totalParcel": 1,
+      "dsTransactionType": "Aluguel Move 5000"
+    }
+  ],
+  "lastPage": true,
+  "totalPages": 0,
+  "totalItems": 0,
+  "currentPage": 0,
+  "totalCurrentItems": 0
+}
+
+Cenarios
+Periodo_Inst_SC_MDR_Contrato_Ajuste_AntMESA_Domic
+
+CT: ultimosSeteDias_7_125_Flex_SALES
+Dado que tenha EC BIN 
+	E EC tem mdr Flex
+	E que tenha vendas realizadas 
+    Quando informar documento '27142109882'
+	E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ENUMBRANCES'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de vendas 
+	E feeMode 2
+
+CT: ontem_7_125_Flex_DISCOUNT_FEES
+Dado que tenha EC BIN 
+	E EC tem mdr Flex
+	E que tenha vendas realizadas 
+    Quando informar documento '27142109882'
+	E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'DISCOUNT_FEES'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de taxas de descontos
+	E feeMode 2
+
+	
+CT: ultimosSeteDias_7_125_Padrao_ENUMBRANCES
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha gravames
+    Quando informar documento '26463713000185'
+    E startDate '2022-05-01'
+    E endDate '2022-05-31'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ENUMBRANCES'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de gravames
+	E feeMode 1
+		
+CT: ontem_7_125_Padrao_ANTICIPATIONS
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha antecipação via MESA
+    Quando informar documento '41972312000144'
+    E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ANTICIPATIONS'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de antecipações
+	E feeMode 1
+
+CT: personalizado_7_125_Padrao_ANTICIPATION_FEES
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha antecipação via MESA
+    Quando informar documento '41972312000144'
+    E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ANTICIPATION_FEES'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de descontos de antecipações
+	E feeMode 1
+
+
+CT: ontem_7_125_Padrao_ADJUSTMENTS
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha ajuste a crédito - Manual
+	E que tenha ajuste a débito 
+    Quando informar documento '41972312000144'
+    E startDate '2022-05-13'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ADJUSTMENTS'
+	E operation 'CREDIT'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de ajustes
+	E feeMode 1
+	E dsTransactionType com descrição do ajuste
+	
+CT: ontem_7_125_Padrao_ADJUSTMENTS_credit
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha ajuste a crédito - Manual
+    Quando informar documento '41972312000144'
+    E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ADJUSTMENTS'
+	E operation 'CREDIT'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de ajustes
+	E feeMode 1
+	E dsTransactionType com descrição do ajuste
+	
+CT: personalizado_7_125_Padrao_ADJUSTMENTS_debit
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha ajuste a crédito - Manual
+    Quando informar documento '26463713000185'
+    E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ADJUSTMENTS'
+    E operation 'DEBIT'
+	Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de ajustes
+	E feeMode 1
+	E dsTransactionType com descrição do ajuste
+
+CT: personalizado_7_125_Padrao_ASSIGNMENTS
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha antecipação via MESA
+    Quando informar documento '27314518000156'
+    E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'ASSIGNMENTS'
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de cessões
+	E feeMode 1
+
+CT: ultimosSeteDias_7_125_Padrao_SALES_Pagina2
+Dado que tenha EC BIN 
+	E EC tem mdr Padrao
+	E que tenha vendas realizadas 
+	E que tenha antecipação via MESA
+    Quando informar documento '27314518000156'
+    E startDate '2022-05-01'
+    E endDate '2022-05-31'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+	E type 'SALES'
+	E size 5
+	E page 2
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E valido conteudo com lista de cessões
+	E feeMode 1
+	E lastPage 'false'
+	E totalPages != 2
+	E currentPage 2
+	E totalCurrentItems 5
+

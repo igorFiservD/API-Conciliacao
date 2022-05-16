@@ -1,0 +1,171 @@
+GET
+/v1/summarized/bank-domiciles
+
+entradas
+	document*
+	type*
+		SALES, ENUMBRANCES, ANTICIPATIONS, ADJUSTMENTS, DISCOUNT_FEES, ANTICIPATION_FEES, ASSIGNMENTS
+	startDate
+	endDate
+		ultimosSeteDias
+		ontem
+		personalizado
+	institution
+		7, 4
+	serviceContract
+		125BIN, 149CAIXA, 110SICREDI
+		
+	
+CT01: ultimosSeteDias_7_125_SemContratos
+Dado que tenha EC BIN 
+	E que tenha vendas realizadas 
+	E não tem contratos
+    Quando informar documento '26463713000185'
+	E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber 'Itau'
+	E typeBankAddres 'CLIENT_BANK'
+	E deve conter pagamentos para 'Visa, Mastercard e Elo' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+CT: ultimosSeteDias_7_125_GravameBancoMapeado
+Dado que tenha EC BIN 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Bradesco
+    Quando informar documento '######'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao FIRSTDATA
+    E serviceContract BIN
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '237'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+
+CT: ontem_7_149_GravameBancoNaoMapeado
+Dado que tenha EC BIN 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Safra
+    Quando informar documento '######'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao FIRSTDATA
+    E serviceContract CAIXA
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '422'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+
+CT: ontem_4_110_GravameBancoMapeado
+Dado que tenha EC SICREDI 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Bradesco
+    Quando informar documento '######'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao SICREDI
+    E serviceContract SICREDI
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '237'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+CT: personalizado_4_110_GravameBancoNaoMapeado
+Dado que tenha EC SICREDI 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Safra
+    Quando informar documento '######'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao SICREDI
+    E serviceContract SICREDI
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '422'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+CT: ontem_10_143_GravameBancoNaoMapeado
+Dado que tenha EC SOROCRED/AFINZ 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Safra
+    Quando informar documento '68578892011'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao SOROCRED/AFINZ
+    E serviceContract SOROCRED/AFINZ
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '422'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+CT: ultimosSeteDias_10_143_SemContratos
+Dado que tenha EC SOROCRED/AFINZ 
+	E que tenha vendas realizadas 
+	E não tem contratos
+    Quando informar documento '39078925000'
+	E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao SOROCRED/AFINZ
+    E serviceContract SOROCRED/AFINZ
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '299'
+	E typeBankAddres 'CLIENT_BANK'
+	E deve conter pagamentos para 'Visa, Mastercard e Elo' 
+	E paymentStatus 'PAYMENT_MADE'
+
+CT: ultimosSeteDias_5_113_GravameBancoNaoMapeado
+Dado que tenha EC REDEPOP 
+	E que tenha vendas realizadas 
+	E tem gravame para banco Safra
+    Quando informar documento '68578892011'
+	E startDate '2022-05-12'
+    E endDate '2022-05-19'
+    E instituicao REDEPOP
+    E serviceContract REDEPOP
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '422'
+	E typeBankAddres 'OTHER_BANK'
+	E deve conter pagamentos para '###' 
+	E paymentStatus 'PAYMENT_MADE'
+	
+CT: ontem_5_113_SemContratos
+Dado que tenha EC REDEPOP 
+	E que tenha vendas realizadas 
+	E não tem contratos
+    Quando informar documento '39078925000'
+	E startDate '2022-05-09'
+    E endDate '2022-05-16'
+    E instituicao REDEPOP
+    E serviceContract REDEPOP
+    Entao valido schema
+    E valido codigoRetorno 0
+    E valido mensagem vazio
+	E bankNumber '299'
+	E typeBankAddres 'CLIENT_BANK'
+	E deve conter pagamentos para 'Visa, Mastercard e Elo' 
+	E paymentStatus 'PAYMENT_MADE'	
