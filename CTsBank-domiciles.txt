@@ -3,8 +3,6 @@ GET
 
 entradas
 	document*
-	type*
-		SALES, ENUMBRANCES, ANTICIPATIONS, ADJUSTMENTS, DISCOUNT_FEES, ANTICIPATION_FEES, ASSIGNMENTS
 	startDate
 	endDate
 		ultimosSeteDias
@@ -32,16 +30,17 @@ Dado que tenha EC BIN
 	E typeBankAddres 'CLIENT_BANK'
 	E deve conter pagamentos para 'Visa, Mastercard e Elo' 
 	E paymentStatus 'PAYMENT_MADE'
-	
-CT: ultimosSeteDias_7_125_GravameBancoMapeado
-Dado que tenha EC BIN 
+
+-----------> Validar 17/05	
+CT02: ultimosSeteDias_7_149_GravameBancoMapeado
+Dado que tenha EC CAIXA 
 	E que tenha vendas realizadas 
 	E tem gravame para banco Bradesco
-    Quando informar documento '######'
+    Quando informar documento '13442765000123'
 	E startDate '2022-05-12'
     E endDate '2022-05-19'
     E instituicao FIRSTDATA
-    E serviceContract BIN
+    E serviceContract CAIXA
     Entao valido schema
     E valido codigoRetorno 0
     E valido mensagem vazio
@@ -50,7 +49,8 @@ Dado que tenha EC BIN
 	E deve conter pagamentos para '###' 
 	E paymentStatus 'PAYMENT_MADE'
 
-CT: ontem_7_149_GravameBancoNaoMapeado
+-----------> Validar 17/05
+CT03: ontem_7_149_GravameBancoNaoMapeado
 Dado que tenha EC BIN 
 	E que tenha vendas realizadas 
 	E tem gravame para banco Safra
@@ -68,7 +68,7 @@ Dado que tenha EC BIN
 	E paymentStatus 'PAYMENT_MADE'
 	
 
-CT: ontem_4_110_GravameBancoMapeado
+CT04: ontem_4_110_GravameBancoMapeado
 Dado que tenha EC SICREDI 
 	E que tenha vendas realizadas 
 	E tem gravame para banco Bradesco
